@@ -1,0 +1,6 @@
+data\source\maps\蓬莱minimap\config.ini
+data\source\maps\浪客行_悬棺裂谷minimap\config.ini
+data\source\maps\敖龙岛minimap\config.ini
+data\source\maps\凌雪阁_别鹤南墅minimap\config.ini
+data\source\maps\浪客行_永王行宫_仙侣庭园minimap\config.ini
+data\source\maps\浪客行_樱花林minimap\config.ini
