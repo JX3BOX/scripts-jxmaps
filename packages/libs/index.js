@@ -4,6 +4,8 @@ const checkexits = require('./checkexist.js')
 const config2img = require('./config2img.js')
 const renderimg = require('./renderimg')
 
+require('dotenv').config()
+
 module.exports = {
   maplist2json,
   json2config,

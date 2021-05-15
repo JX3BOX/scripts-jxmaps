@@ -4,6 +4,7 @@ const { maplist2json,
   config2img,
   renderimg
  } = require('../libs')
+ 
 
  const action = process.argv[3]
 

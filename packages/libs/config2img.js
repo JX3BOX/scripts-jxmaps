@@ -3,38 +3,62 @@ const iconv = require('iconv-lite')
 const path = require('path')
 const chalk = require('chalk')
 
+require('dotenv').config()
+
+const sourcePath = process.env.SOURCE
+const targetPath = process.env.TARGET
+
 module.exports = function() {
   console.log('正在生成图片存放路径')
-  fs.readFile('./config.txt', 'utf8', (err, data) => {
-    const _data = data.split('\n')
 
-    _data.forEach(dPath => {
-      if (fs.existsSync(dPath)) {
-        fs.readFile(dPath, 'binary', (err, dPathData) => {
-          if (err) {
-            console.log(err)
-          } else {
-            // 需要转为 gbk 防止中文乱码
-            const gbData = iconv.decode(dPathData, 'gbk')
-            const _dPathData = gbData.split('\n')
-            const images = []
-            const parentPath = path.dirname(dPath)
+  const keys = ['MAPID', '名称', '图片类型', '图片格式', '图片路径']
 
-            _dPathData.forEach(item => {
-              // console.log(item.split(/\[\w+\]/g))
-              if (item.indexOf('image=') > -1) {
-                const imgName = item.split('=')[1]
-                images.push(`${parentPath}\\${imgName}`)
-              }
-            })
-            // 去重
-            const sortedImgs = [...new Set(images)]
-            fs.writeFileSync(`${parentPath}\\image.txt`, sortedImgs.join('\n'))
+  const mapJson = fs.readFileSync(`${targetPath}\\map.json`, 'utf-8')
 
-            console.log(chalk.green(`在 ${parentPath} 目录生成 image.txt 存放图片路径成功 :)`))
-          }
-        })
-      }
-    })
+  const _mapJson = JSON.parse(mapJson)
+
+  const rows = []
+
+  rows.push(keys.join('\t'))
+
+  const imagePaths = []
+
+  _mapJson.forEach(_map => {
+
+    // 拼接源文件地址
+    const paths = path.resolve(sourcePath, _map.ConfigPath)
+
+    if (fs.existsSync(paths)) {
+      const data = fs.readFileSync(paths, 'binary')
+
+      const gbData = iconv.decode(data, 'gbk')
+
+      const fromatData = gbData.match(/\[\w+\]/g).filter(f => !f.includes('config'))
+
+      const _data = gbData.split('\n').map(d => d.replace('\r', ''))
+
+      const parentPath = path.dirname(_map.ConfigPath)
+
+      _data.filter(da => da.includes('image')).forEach((_d, index) => {
+        const imgName = _d.split('=')[1]
+        const extname = imgName.split('.')[1]
+        const item = [_map.ID, _map.Name, fromatData[index], extname, `${parentPath}\\${imgName}`].join('\t')
+
+        const obj = {
+          "MAPID": _map.ID,
+          "name": _map.Name,
+          "type": fromatData[index],
+          "pattern": extname,
+          "path": `${parentPath}\\${imgName}`
+        }
+
+        imagePaths.push(obj)
+        rows.push(item)
+      })
+    }
   })
+
+  fs.writeFileSync(`${targetPath}\\image.tab`, iconv.encode(rows.join('\n'), 'gbk'), { encoding: 'binary' })
+  fs.writeFileSync(`${targetPath}\\image.json`, JSON.stringify(imagePaths))
+  console.log(chalk.green(`在 ${targetPath} 目录生成 image.txt 存放图片路径成功 :)`))
 }

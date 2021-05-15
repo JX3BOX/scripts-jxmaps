@@ -2,9 +2,13 @@ const fs = require('fs')
 const path = require('path')
 const chalk = require('chalk')
 
+require('dotenv').config()
+
+const targetPath = process.env.TARGET
+
 module.exports = function() {
   console.log('正在执行 map.json -> map.txt')
-  const data = fs.readFileSync('./map.json', 'utf-8');
+  const data = fs.readFileSync(`${targetPath}\\map.json`, 'utf-8');
 
   const _data = JSON.parse(data)
   let configPaths = []
@@ -28,6 +32,6 @@ module.exports = function() {
     }
     
   })
-  fs.writeFileSync('config.txt', configPaths.join('\n'))
-  console.log(chalk.green(`在 ${process.cwd()} 目录生成 map.txt 成功 :)`))
+  fs.writeFileSync(`${targetPath}\\config.txt`, configPaths.join('\n'))
+  console.log(chalk.green(`在 ${targetPath} 目录生成 config.txt 成功 :)`))
 }
