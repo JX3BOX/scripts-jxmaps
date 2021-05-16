@@ -2,7 +2,8 @@ const { maplist2json,
   json2config,
   checkexits,
   config2img,
-  renderimg
+  renderimg,
+  compare
  } = require('../libs')
  
 
@@ -25,6 +26,9 @@ module.exports = function() {
       break
     case '5':
       renderimg()
+      break
+    case '0':
+      compare()
       break
   }
 }

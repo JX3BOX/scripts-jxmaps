@@ -39,7 +39,7 @@ module.exports = function() {
     const paths = path.resolve(sourcePath, _d.path)
 
     if (fs.existsSync) {
-      const extname = path.extname(paths)
+      const extname = path.extname(paths).toLocaleLowerCase()
   
       if (extname === '.dds') {
   
@@ -78,5 +78,5 @@ module.exports = function() {
   if (withoutFiles.length) {
     fs.writeFileSync(`${targetPath}\\缺图.txt`, withoutFiles.join('\n'), { encoding: 'utf-8' })
   }
-  console.log(chalk.green(`图片转换与命名成功`))
+  console.log(chalk.green(`图片转换中...`))
 }

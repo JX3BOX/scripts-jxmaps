@@ -12,3 +12,7 @@ IMAGE_TARGET= # 导出图片所在位置
 5. 运行 jx3maps run 3，会根据 config.ini 生成 image.tab 和 image.json 文件，image.tab 文件内容是每个地图的路径和基本信息，image.json 用于下一步的比对
 6. 运行 jx3maps run 4，根据 image.tab 文件纠正 image.json 中图片格式错误，重新生成 image.tab 和 image.json 文件
 7. 运行 jx3maps run 5，根据 image.json 进行图片转换和命名，并在 IMAGE_TARGET 生成 images 目录保存转换后的图片，如果有文件找不到，会生成一个 缺图.txt
+
+工具函数
+
+jx3maps run 0 查询哪个图片并未输出

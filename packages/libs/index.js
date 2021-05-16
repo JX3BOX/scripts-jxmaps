@@ -3,6 +3,7 @@ const json2config  = require('./json2config.js')
 const checkexits = require('./checkexist.js')
 const config2img = require('./config2img.js')
 const renderimg = require('./renderimg')
+const compare = require('./compare')
 
 require('dotenv').config()
 
@@ -11,5 +12,6 @@ module.exports = {
   json2config,
   checkexits,
   config2img,
-  renderimg
+  renderimg,
+  compare
 }

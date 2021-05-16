@@ -33,7 +33,7 @@ module.exports = function() {
 
       const gbData = iconv.decode(data, 'gbk')
 
-      const fromatData = gbData.match(/\[\w+\]/g).filter(f => !f.includes('config'))
+      const formatData = gbData.match(/\[\w+\]/g).filter(f => !f.includes('config'))
 
       const _data = gbData.split('\n').map(d => d.replace('\r', ''))
 
@@ -42,14 +42,17 @@ module.exports = function() {
       _data.filter(da => da.includes('image')).forEach((_d, index) => {
         const imgName = _d.split('=')[1]
         const extname = imgName.split('.')[1]
-        const item = [_map.ID, _map.Name, fromatData[index], extname, `${parentPath}\\${imgName}`].join('\t')
+        const fIndex = formatData[index].slice(10, formatData[index].length - 1)
+        const exportImageName = formatData[index].includes('loading') ? `loading_${_map.ID}_0.png` : `map_${_map.ID}_${fIndex}.png`
+        const item = [_map.ID, _map.Name, formatData[index], extname, `${parentPath}\\${imgName}`, exportImageName].join('\t')
 
         const obj = {
           "MAPID": _map.ID,
           "name": _map.Name,
-          "type": fromatData[index],
+          "type": formatData[index],
           "pattern": extname,
-          "path": `${parentPath}\\${imgName}`.trim()
+          "path": `${parentPath}\\${imgName}`.trim(),
+          exportImageName
         }
 
         imagePaths.push(obj)
