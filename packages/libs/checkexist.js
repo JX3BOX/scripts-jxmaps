@@ -49,8 +49,6 @@ module.exports = function () {
       }
     })
 
-    console.log(json)
-
     const _keys = ['MAPID', '名称', '图片类型', '图片格式', '图片路径']
 
     const _rows = []

@@ -4,3 +4,4 @@ data
 config.txt
 map.json
 jxmaps.zip
+.env

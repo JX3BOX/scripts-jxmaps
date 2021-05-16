@@ -10,7 +10,7 @@ const targetPath = process.env.TARGET
 module.exports = function () {
   console.log('正在执行 mapList -> map.json')
   // 先统一将文件用二进制编码方式读取，然后用 gbk 解码
-  fs.readFile(mapPath, "binary", function(err, data){
+  fs.readFile(`${mapPath}\\MapList.tab`, "binary", function(err, data){
     const _data = iconv.decode(data, 'gbk')
     var rows = _data.split("\n");
     var json = [];
