@@ -7,18 +7,21 @@ require('dotenv').config()
 const targetPath = process.env.TARGET
 
 module.exports = function() {
-  console.log('正在执行 map.json -> map.txt')
+  console.log('正在执行 map.json -> config.txt')
   const data = fs.readFileSync(`${targetPath}\\map.json`, 'utf-8');
 
   const _data = JSON.parse(data)
   let configPaths = []
   _data.forEach(d => {
+    // 大地图的 source path
     const _path = d.ID && d.ResourcePath
+
+    const minimap = d.ID && d.MiniMapResourcePath
 
     // const exist = fs.existsSync(_path)
     // 去除 ID 为空的地图
     if (_path) {
-      const __path = _path && path.dirname(_path)
+      const __path = minimap || (_path && path.dirname(_path))
   
       /* if (exist) {
         

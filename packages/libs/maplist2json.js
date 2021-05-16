@@ -42,15 +42,20 @@ module.exports = function () {
     // 生成 map.json
     const _json = json.filter(j => j.ID).map(js => {
 
+      const mininap = js.MiniMapResourcePath
+
       const resPaths = js.ResourcePath.split('\\')
-      const ConfigPath = resPaths.slice(0, resPaths.length - 1).join('\\') + 'minimap\\config.ini'
+      const ConfigPath = mininap ? 
+        `${mininap}minimap\\config.ini`
+        : resPaths.slice(0, resPaths.length - 1).join('\\') + 'minimap\\config.ini'
       return {
         ID: js.ID,
         Name: js.Name,
         DisplayName: js.DisplayName,
         Perform: js.Perform,
         ResourcePath: js.ResourcePath,
-        ConfigPath
+        ConfigPath,
+        MiniMapResourcePath: js.MiniMapResourcePath
       }
     })
 

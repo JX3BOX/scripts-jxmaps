@@ -36,30 +36,49 @@ module.exports = function () {
         }
     })
   
-    json.forEach(tJson => {
+    json.map(tJson => {
+
       const paths = path.resolve(sourcePath, tJson['图片路径'])
+
       if (!fs.existsSync(paths)) {
+
         const extname = path.extname(tJson['图片路径'])
+
         if (extname === '.tga') {
-          tJson['图片路径'] = tJson['图片路径'].replace(/.tga/, '.dds')
+
+          tJson['修正路径'] = tJson['图片路径'].replace(/.tga/, '.dds')
+
         } else if (extname === '.dds') {
-          tJson['图片路径'] = tJson['图片路径'].replace(/.dds/, '.tga')
+
+          tJson['修正路径'] = tJson['图片路径'].replace(/.dds/, '.tga')
+
         }
         return tJson
       }
     })
 
-    const _keys = ['MAPID', '名称', '图片类型', '图片格式', '图片路径']
+    // const _keys = ['MAPID', '名称', '图片类型', '图片格式', '图片路径']
 
-    const _rows = []
+    // const _rows = []
+    
+    // _rows.push(_keys.join('\t'))
 
-    _rows.push(_keys.join('\t'))
+    const diffKeys = ['MAPID', '名称', '图片类型', '图片路径', '修正路径']
+
+    const diffRows = []
+
+    diffRows.push(diffKeys.join('\t'))
+
+    // 仅保存修正前后的数据，原 image.tab 不进行修改
 
     json.forEach(_json => {
-      _rows.push([_json.MAPID, _json['名称'], _json['图片类型'], _json['图片格式'], _json['图片路径']].join('\t'))
+
+      if (_json['修正路径']) {
+        diffRows.push([_json.MAPID, _json['名称'], _json['图片类型'], _json['图片路径'], _json['修正路径']].join('\t'))
+      }
     })
   
-    fs.writeFileSync(`${targetPath}\\image.tab`, iconv.encode(_rows.join('\n'), 'gbk'), { encoding: 'binary'})
+    fs.writeFileSync(`${targetPath}\\修补路径.tab`, iconv.encode(diffRows.join('\n'), 'gbk'), { encoding: 'binary'})
     console.log(chalk.green(`图片校验完成`))
   })
 
@@ -79,6 +98,8 @@ module.exports = function () {
       return d
     }
   })
+
+  // 直接替换修改后的路径
 
   fs.writeFileSync(`${targetPath}\\image.json`, JSON.stringify(_data))
 
