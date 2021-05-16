@@ -49,7 +49,7 @@ module.exports = function() {
           "name": _map.Name,
           "type": fromatData[index],
           "pattern": extname,
-          "path": `${parentPath}\\${imgName}`
+          "path": `${parentPath}\\${imgName}`.trim()
         }
 
         imagePaths.push(obj)

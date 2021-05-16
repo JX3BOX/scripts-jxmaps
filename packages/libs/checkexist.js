@@ -88,8 +88,10 @@ module.exports = function () {
 
   _data.map(d => {
 
-    if (!fs.existsSync(d.path)) {
+    if (!fs.existsSync(`${sourcePath}\\${d.path}`)) {
+
       const extname = path.extname(d.path)
+      
       if (extname === '.tga') {
         d.path = d.path.replace(/.tga/, '.dds')
       } else if (extname === '.dds') {

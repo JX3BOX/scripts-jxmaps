@@ -32,41 +32,51 @@ module.exports = function() {
 
   // const imgData = [...new S_data.map(d.path)]
 
+  const withoutFiles = []
+
   _data.forEach(_d => {
 
     const paths = path.resolve(sourcePath, _d.path)
 
-    const extname = path.extname(paths)
-
-    if (extname === '.dds') {
-
-      if (_d.type.indexOf('loading') > -1) {
-
-        fs.copyFileSync(paths, `${loading}\\loading_${_d.MAPID}_0.png`)
-
-      } else {
-
-        const index = _d.type.slice(10, _d.type.length - 1)
-        const name = `map_${_d.MAPID}_${index}`
-
-        fs.copyFileSync(paths, `${map}\\${name}.png`)
-
+    if (fs.existsSync) {
+      const extname = path.extname(paths)
+  
+      if (extname === '.dds') {
+  
+        if (_d.type.indexOf('loading') > -1) {
+  
+          fs.copyFileSync(paths, `${loading}\\loading_${_d.MAPID}_0.png`)
+  
+        } else {
+  
+          const index = _d.type.slice(10, _d.type.length - 1)
+          const name = `map_${_d.MAPID}_${index}`
+  
+          fs.copyFileSync(paths, `${map}\\${name}.png`)
+  
+        }
+      } else if (extname === '.tga') {
+  
+        if (_d.type.indexOf('loading') > -1) {
+          
+          tga2png(paths, `${loading}\\loading_${_d.MAPID}_0.png`)
+  
+        } else {
+  
+          const index = _d.type.slice(10, _d.type.length - 1)
+          const name = `map_${_d.MAPID}_${index}`
+  
+          tga2png(paths, `${map}\\${name}.png`)
+  
+        }
       }
-    } else if (extname === '.tga') {
-
-      if (_d.type.indexOf('loading') > -1) {
-        
-        tga2png(paths, `${loading}\\loading_${_d.MAPID}_0.png`)
-
-      } else {
-
-        const index = _d.type.slice(10, _d.type.length - 1)
-        const name = `map_${_d.MAPID}_${index}`
-
-        tga2png(paths, `${map}\\${name}.png`)
-
-      }
+    } else {
+      withoutFiles.push(_d.path)
     }
   })
+
+  if (withoutFiles.length) {
+    fs.writeFileSync(`${targetPath}\\缺图.txt`, withoutFiles.join('\n'), { encoding: 'utf-8' })
+  }
   console.log(chalk.green(`图片转换与命名成功`))
 }
