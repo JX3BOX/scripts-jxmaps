@@ -3,7 +3,6 @@
 const path = require('path')
 const fs = require('fs')
 const { program } = require('commander')
-// const initial = require('../packages/commands/initial')
 const actions = require('../packages/commands/actions')
 
 let config = {}
