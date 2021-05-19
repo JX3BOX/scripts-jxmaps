@@ -3,7 +3,8 @@ const { maplist2json,
   checkexits,
   config2img,
   renderimg,
-  compare
+  compare,
+  resizeimage
  } = require('../libs')
  
 
@@ -29,6 +30,9 @@ module.exports = function() {
       break
     case '0':
       compare()
+      break
+    case '6':
+      resizeimage()
       break
   }
 }

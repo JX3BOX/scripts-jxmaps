@@ -16,14 +16,22 @@ module.exports = function() {
    * map 和 loading 图分开存放
    */
   const map = `${imagePath}\\images\\map`
+  const map_dds = `${imagePath}\\images\\map_dds`
   const loading = `${imagePath}\\images\\loading`
+  const loading_dds = `${imagePath}\\images\\loading_dds`
 
   // 创建对应的 map 和 loading 文件夹
   if (!fs.existsSync(map)) {
     fs.mkdirSync(map, { recursive: true })
   }
+  if (!fs.existsSync(map_dds)) {
+    fs.mkdirSync(map_dds, { recursive: true })
+  }
   if (!fs.existsSync(loading)) {
     fs.mkdirSync(loading, { recursive: true })
+  }
+  if (!fs.existsSync(loading_dds)) {
+    fs.mkdirSync(loading_dds, { recursive: true })
   }
 
   const data = fs.readFileSync(`${targetPath}\\image.json`, 'utf-8')
@@ -45,14 +53,14 @@ module.exports = function() {
   
         if (_d.type.indexOf('loading') > -1) {
   
-          fs.copyFileSync(paths, `${loading}\\loading_${_d.MAPID}_0.png`)
+          fs.copyFileSync(paths, `${loading_dds}\\loading_${_d.MAPID}_0.dds`)
   
         } else {
   
           const index = _d.type.slice(10, _d.type.length - 1)
           const name = `map_${_d.MAPID}_${index}`
   
-          fs.copyFileSync(paths, `${map}\\${name}.png`)
+          fs.copyFileSync(paths, `${map_dds}\\${name}.dds`)
   
         }
       } else if (extname === '.tga') {

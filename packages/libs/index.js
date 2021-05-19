@@ -4,6 +4,7 @@ const checkexits = require('./checkexist.js')
 const config2img = require('./config2img.js')
 const renderimg = require('./renderimg')
 const compare = require('./compare')
+const resizeimage = require('./resizeimage')
 
 require('dotenv').config()
 
@@ -13,5 +14,6 @@ module.exports = {
   checkexits,
   config2img,
   renderimg,
-  compare
+  compare,
+  resizeimage
 }
