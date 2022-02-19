@@ -44,9 +44,18 @@ module.exports = function () {
 
 	_data.forEach(_d => {
 
-		const paths = path.resolve(sourcePath, _d.path)
+		let paths = path.resolve(sourcePath, _d.path)
 
-		if (fs.existsSync) {
+		let filename = path.basename(paths).split('.')[0]
+
+		const ddsPath = path.resolve(path.dirname(paths), `${filename}.dds`)
+		
+		// 如果存在dds文件，则使用dds文件
+		if (fs.existsSync(ddsPath)) {
+			paths = ddsPath
+		}
+		
+		if (fs.existsSync(paths)) {
 			const extname = path.extname(paths).toLocaleLowerCase()
 
 			if (extname === '.dds') {
@@ -71,7 +80,6 @@ module.exports = function () {
 						tga2png(paths, `${loading}\\loading_${_d.MAPID}_0.png`)
 					}
 				} else {
-
 					const index = _d.type.slice(10, _d.type.length - 1)
 					const name = `map_${_d.MAPID}_${index}`
 
