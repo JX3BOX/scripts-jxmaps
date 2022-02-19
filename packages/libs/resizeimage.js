@@ -12,32 +12,32 @@ const height = process.env.HEIGHT
 
 module.exports = function () {
 
-  // 重设大小后放置的文件夹
-  const resizeDir = `${imagePath}\\images\\loading`
+    // 重设大小后放置的文件夹
+    const resizeDir = `${imagePath}\\images\\loading`
 
-  if (!fs.existsSync(resizeDir)) {
-    fs.mkdirSync(resizeDir, { recursive: true })
-  }
-
-  const loading_maps = fs.readdirSync(`${ddsPath}`)
-
-  // console.log(loading_maps)
-
-  loading_maps.forEach((img) => {
-
-    if (Number(height)) {
-
-      images(`${ddsPath}\\${img}`)
-      .size(Number(width), Number(height))
-      .save(`${resizeDir}\\${img}`)
-
-    } else {
-
-      images(`${ddsPath}\\${img}`)
-      .size(Number(width))
-      .save(`${resizeDir}\\${img}`)
-
+    if (!fs.existsSync(resizeDir)) {
+        fs.mkdirSync(resizeDir, { recursive: true })
     }
-  })
+
+    const loading_maps = fs.readdirSync(`${ddsPath}`)
+
+    // console.log(loading_maps)
+
+    loading_maps.forEach((img) => {
+
+        if (Number(height)) {
+
+            images(`${ddsPath}\\${img}`)
+                .size(Number(width), Number(height))
+                .save(`${resizeDir}\\${img}`)
+
+        } else {
+
+            images(`${ddsPath}\\${img}`)
+                .size(Number(width))
+                .save(`${resizeDir}\\${img}`)
+
+        }
+    })
 
 }
